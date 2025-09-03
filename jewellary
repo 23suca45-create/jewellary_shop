@@ -1,0 +1,72 @@
+# Simple Jewelry Shop Management System
+
+jewellary_items = []
+
+def add_item():
+    name = input("Enter item name: ")
+    category = input("Enter category (e.g., ring, necklace): ")
+    price = float(input("Enter price: "))
+    quantity = int(input("Enter quantity: "))
+    
+    item = {
+        "name": name,
+        "category": category,
+        "price": price,
+        "quantity": quantity
+    }
+    jewelry_items.append(item)
+    print("✅ Item added successfully!\n")
+
+def show_inventory():
+    if not jewelry_items:
+        print("❌ No items in inventory.\n")
+        return
+    
+    print("\n📦 Current Inventory:")
+    for idx, item in enumerate(jewelry_items, start=1):
+        print(f"{idx}. {item['name']} ({item['category']}) - ${item['price']:.2f} x {item['quantity']}")
+    print()
+
+def sell_item():
+    show_inventory()
+    try:
+        item_number = int(input("Enter item number to sell: ")) - 1
+        quantity = int(input("Enter quantity to sell: "))
+        
+        if 0 <= item_number < len(jewelry_items):
+            if jewelry_items[item_number]['quantity'] >= quantity:
+                jewelry_items[item_number]['quantity'] -= quantity
+                total = jewelry_items[item_number]['price'] * quantity
+                print(f"✅ Sold {quantity} item(s). Total: ${total:.2f}\n")
+            else:
+                print("❌ Not enough stock.\n")
+        else:
+            print("❌ Invalid item number.\n")
+    except ValueError:
+        print("❌ Invalid input.\n")
+
+def main_menu():
+    while True:
+        print("💎 Jewelry Shop Management System")
+        print("1. Add Item")
+        print("2. Show Inventory")
+        print("3. Sell Item")
+        print("4. Exit")
+        
+        choice = input("Enter your choice (1-4): ")
+        print()
+        
+        if choice == '1':
+            add_item()
+        elif choice == '2':
+            show_inventory()
+        elif choice == '3':
+            sell_item()
+        elif choice == '4':
+            print("👋 Exiting. Thank you!")
+            break
+        else:
+            print("❌ Invalid choice. Try again.\n")
+
+# Start the program
+main_menu()
